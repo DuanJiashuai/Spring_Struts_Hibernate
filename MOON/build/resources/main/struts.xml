@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="messageResource" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	
+	<package name="example" namespace="/" extends="json-default">
+        <action name="readCookie" class="userManage" method="getCookie">
+    		<result type="json">
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+        </action>
+        <action name="readUserInfo" class="userManage" method="getUserInfo">
+    		<result type="json">
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+        </action>
+        <action name="getDefaultAddress" class="addressManage" method="getDefaultAddress">
+    		<result type="json">
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+        </action>
+        <action name="getCommidityList" class="commidityManage" method="getAllCommidities" ></action>
+        <action name="getCollectionList" class="collectionManage" method="getCollectionListByUserId" ></action>
+        <action name="getCartList" class="cartManage" method="getCartListByUserId" ></action>
+        <action name="getOrderList" class="orderManage" method="getOrderListByUserId" ></action>
+		<action name="getOrderDetails" class="orderManage" method="getOrderDetailsById" ></action>
+		<action name="getCommidityDetails" class="commidityManage" method="getCommidityDetails" ></action>
+		<action name="getCommidityImages" class="commidityManage" method="getCommidityImages" ></action>
+	</package>
+    
+    <package name="default" namespace="/" extends="struts-default">
+		<action name="updateUserHeadicon" class="fileUpload" method="updateUserHeadicon">
+			<interceptor-ref name="fileUpload">
+      			<param name="allowedTypes">image/png,image/gif,image/jpeg</param>
+      			<param name="maximumSize">5120000</param>
+      		</interceptor-ref>
+      		<interceptor-ref name="defaultStack" />
+      		<param name="savePath">/file</param>
+			<result>/WEB-INF/content/editinformation.jsp</result>
+			<result name="input">/WEB-INF/content/editinformation.jsp</result>
+		</action>
+		<action name="userRegister" class="userManage" method="register">
+			<result name="success">/WEB-INF/content/login.jsp</result>
+			<result name="error">/WEB-INF/content/register.jsp</result>
+		</action>
+		<action name="userLogin" class="userManage" method="login">
+			<result name="success">/WEB-INF/content/index.jsp</result>
+			<result name="input">/WEB-INF/content/login.jsp</result>
+		</action>
+		<action name="userDrop" class="userManage" method="drop">
+			<result name="success">/WEB-INF/content/login.jsp</result>
+			<result name="input">/WEB-INF/content/logoff.jsp</result>
+		</action>
+		<action name="editUserInfo" class="userManage" method="update">
+			<interceptor-ref name="fileUpload">
+      			<param name="allowedTypes">image/png,image/gif,image/jpeg</param>
+      			<param name="maximumSize">5120000</param>
+      		</interceptor-ref>
+      		<interceptor-ref name="defaultStack" />
+      		<param name="savePath">/file</param>
+			<result>/WEB-INF/content/editinformation.jsp</result>
+			<result name="input">/WEB-INF/content/editinformation.jsp</result>
+		</action>
+		<action name="forgotPwd" class="emailSupport" method="sendPasswordToUser">
+			<result name="success">/WEB-INF/content/login.jsp</result>
+			<result name="error">/WEB-INF/content/forgotPassword.jsp</result>
+		</action>
+		<action name="updatePassword" class="userManage" method="editPassword">
+			<result name="success">/WEB-INF/content/personalcenter.jsp</result>
+			<result name="error">/WEB-INF/content/editpassword.jsp</result>
+		</action>
+		<action name="addAddress" class="addressManage" method="addAddress">
+			<result name="success">/WEB-INF/content/editaddress.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="editAddress" class="addressManage" method="editAddress">
+			<result name="success">/WEB-INF/content/editaddress.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="addToCart" class="cartManage" method="addToCart">
+			<result name="success">/WEB-INF/content/cart.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="addToCollection" class="collectionManage" method="addToCollection">
+			<result name="success">/WEB-INF/content/wishlist.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="deleteCollection" class="collectionManage" method="deleteCollection">
+			<result name="success">/WEB-INF/content/wishlist.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="updateCart" class="cartManage" method="updateCart">
+			<result name="success">/WEB-INF/content/cart.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="removeCart" class="cartManage" method="deleteCart">
+			<result name="success">/WEB-INF/content/cart.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="createOrders" class="orderManage" method="createOrders">
+			<result name="success">/WEB-INF/content/orderdetails.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="checkoutOrder" class="orderManage" method="updateOrderStatus">
+			<result name="success">/WEB-INF/content/orderdetails.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+		<action name="recieveAccept" class="orderManage" method="updateOrderStatus">
+			<result name="success">/WEB-INF/content/orderdetails.jsp</result>
+			<result name="error">/WEB-INF/content/404.jsp</result>
+		</action>
+        <action name="*">
+            <result>/WEB-INF/content/{1}.jsp</result>
+        </action>
+    </package>
+    
+    <package name="easyui" namespace="/jsp" extends="struts-default">
+		<action name="*">
+            <result>/WEB-INF/content/{1}.jsp</result>
+        </action>
+	</package>
+</struts>
